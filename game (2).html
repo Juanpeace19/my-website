@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rock Paper Scissors – Juan Pablo Parra</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Navigation Bar -->
+  <div class="nav-bar">
+    <a href="index.html" class="nav-link">🏠 Home</a>
+    <a href="game.html" class="nav-link nav-active">✊ Rock Paper Scissors</a>
+  </div>
+
+  <h1 class="page-title">Rock Paper Scissors</h1>
+
+  <!-- Score board -->
+  <div class="scoreboard">
+    <div class="score-block">
+      <div class="score-label">You</div>
+      <div class="score-num" id="score-player">0</div>
+    </div>
+    <div class="score-block">
+      <div class="score-label">Draws</div>
+      <div class="score-num" id="score-draw">0</div>
+    </div>
+    <div class="score-block">
+      <div class="score-label">Computer</div>
+      <div class="score-num" id="score-cpu">0</div>
+    </div>
+  </div>
+
+  <!-- Arena: two hands face off -->
+  <div class="arena">
+    <div class="hand-box" id="player-hand">
+      <div class="hand-label">You</div>
+      <div class="hand-emoji" id="player-emoji">🤜</div>
+    </div>
+    <div class="vs-badge">VS</div>
+    <div class="hand-box" id="cpu-hand">
+      <div class="hand-label">CPU</div>
+      <div class="hand-emoji" id="cpu-emoji">🤛</div>
+    </div>
+  </div>
+
+  <!-- Result message -->
+  <p class="result-text" id="result-text">Choose a move below!</p>
+
+  <!-- Choice buttons -->
+  <p class="choice-hint">Pick your move:</p>
+  <div class="choices">
+    <button class="choice-btn" onclick="play('rock')"     title="Rock">✊<br><span>Rock</span></button>
+    <button class="choice-btn" onclick="play('paper')"    title="Paper">🖐️<br><span>Paper</span></button>
+    <button class="choice-btn" onclick="play('scissors')" title="Scissors">✌️<br><span>Scissors</span></button>
+  </div>
+
+  <div style="text-align:center; margin-top: 18px;">
+    <button class="reset-btn" onclick="resetGame()">🔄 Reset Score</button>
+  </div>
+
+  <hr />
+
+  <!-- Round history -->
+  <h3>Round History</h3>
+  <ul id="history-log" class="history-log">
+    <li style="color:#888; font-style:italic;">No rounds played yet.</li>
+  </ul>
+
+  <footer class="page-footer">
+    Copyright &copy; 2026 Juan Pablo Parra. All Rights Reserved.
+  </footer>
+
+  <style>
+    /* ---- Scoreboard ---- */
+    .scoreboard {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      background-color: #3D2D13;
+      border-radius: 8px;
+      padding: 16px 0;
+      margin: 24px 0;
+    }
+    .score-block {
+      flex: 1;
+      text-align: center;
+      border-right: 2px solid #A9846A;
+    }
+    .score-block:last-child { border-right: none; }
+    .score-label {
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #E8DCC4;
+    }
+    .score-num {
+      font-size: 2.8rem;
+      font-weight: bold;
+      color: #BF5700;
+      line-height: 1.1;
+    }
+
+    /* ---- Arena ---- */
+    .arena {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      margin: 10px 0 20px;
+    }
+    .hand-box {
+      background-color: #E8DCC4;
+      border: 4px solid #3D2D13;
+      border-radius: 12px;
+      width: 160px;
+      height: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.3s, background-color 0.3s;
+    }
+    .hand-box.win  { border-color: #2e7d32; background-color: #d4edda; }
+    .hand-box.lose { border-color: #b71c1c; background-color: #fde8e8; }
+    .hand-box.draw { border-color: #BF5700; background-color: #fff3e0; }
+    .hand-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 4px;
+    }
+    .hand-emoji {
+      font-size: 4.5rem;
+      line-height: 1;
+    }
+    .vs-badge {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #FFFFFF;
+      text-shadow: 2px 2px 0 #3D2D13;
+    }
+
+    /* ---- Result text ---- */
+    .result-text {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #FFFFFF;
+      min-height: 2rem;
+      margin: 6px 0 16px;
+    }
+    .result-text.win  { color: #a5d6a7; }
+    .result-text.lose { color: #ef9a9a; }
+    .result-text.draw { color: #ffe082; }
+
+    /* ---- Choice buttons ---- */
+    .choice-hint {
+      text-align: center;
+      color: #FFFFFF;
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+    .choices {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .choice-btn {
+      font-size: 2rem;
+      background-color: #E8DCC4;
+      border: 3px solid #3D2D13;
+      border-radius: 10px;
+      width: 100px;
+      height: 100px;
+      cursor: pointer;
+      font-family: Georgia, serif;
+      color: #3D2D13;
+      font-weight: bold;
+      transition: background-color 0.15s, transform 0.1s;
+      line-height: 1.2;
+    }
+    .choice-btn span { font-size: 0.75rem; display: block; }
+    .choice-btn:hover {
+      background-color: #BF5700;
+      color: #FFFFFF;
+      transform: scale(1.08);
+    }
+    .choice-btn:active { transform: scale(0.95); }
+
+    /* ---- Reset button ---- */
+    .reset-btn {
+      background-color: #3D2D13;
+      color: #E8DCC4;
+      border: 2px solid #E8DCC4;
+      border-radius: 6px;
+      padding: 10px 28px;
+      font-size: 15px;
+      font-family: Georgia, serif;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .reset-btn:hover { background-color: #BF5700; color: #FFFFFF; }
+
+    /* ---- History log ---- */
+    .history-log {
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    .history-log li.win  { background-color: #d4edda; }
+    .history-log li.lose { background-color: #fde8e8; }
+    .history-log li.draw { background-color: #fff3e0; }
+
+    /* ---- Shake animation ---- */
+    @keyframes shake {
+      0%   { transform: translateX(0); }
+      20%  { transform: translateX(-10px) rotate(-8deg); }
+      40%  { transform: translateX(10px)  rotate(8deg); }
+      60%  { transform: translateX(-7px)  rotate(-5deg); }
+      80%  { transform: translateX(7px)   rotate(5deg); }
+      100% { transform: translateX(0)     rotate(0deg); }
+    }
+    .shake { animation: shake 0.45s ease; }
+
+    @keyframes popIn {
+      0%   { transform: scale(0.3); opacity: 0; }
+      70%  { transform: scale(1.25); }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+    .pop { animation: popIn 0.3s ease forwards; }
+  </style>
+
+  <script>
+    const EMOJI   = { rock: '✊', paper: '🖐️', scissors: '✌️' };
+    const CHOICES = ['rock', 'paper', 'scissors'];
+    let scores = { player: 0, cpu: 0, draw: 0 };
+
+    function cpuChoice() {
+      return CHOICES[Math.floor(Math.random() * 3)];
+    }
+
+    function getResult(player, cpu) {
+      if (player === cpu) return 'draw';
+      if (
+        (player === 'rock'     && cpu === 'scissors') ||
+        (player === 'paper'    && cpu === 'rock')     ||
+        (player === 'scissors' && cpu === 'paper')
+      ) return 'win';
+      return 'lose';
+    }
+
+    function play(playerMove) {
+      const cpuMove = cpuChoice();
+      const result  = getResult(playerMove, cpuMove);
+
+      const playerBox   = document.getElementById('player-hand');
+      const cpuBox      = document.getElementById('cpu-hand');
+      const playerEmoji = document.getElementById('player-emoji');
+      const cpuEmoji    = document.getElementById('cpu-emoji');
+      const resultEl    = document.getElementById('result-text');
+
+      // Reset state
+      playerBox.className = 'hand-box shake';
+      cpuBox.className    = 'hand-box shake';
+      playerEmoji.textContent = '❓';
+      cpuEmoji.textContent    = '❓';
+      resultEl.className = 'result-text';
+      resultEl.textContent = '...';
+
+      setTimeout(() => {
+        playerBox.classList.remove('shake');
+        cpuBox.classList.remove('shake');
+
+        playerEmoji.textContent = EMOJI[playerMove];
+        cpuEmoji.textContent    = EMOJI[cpuMove];
+        playerEmoji.className = 'hand-emoji pop';
+        cpuEmoji.className    = 'hand-emoji pop';
+
+        playerBox.classList.add(result === 'win' ? 'win' : result === 'lose' ? 'lose' : 'draw');
+        cpuBox.classList.add(result === 'lose' ? 'win' : result === 'win' ? 'lose' : 'draw');
+
+        resultEl.className = 'result-text ' + result;
+        resultEl.textContent =
+          result === 'win'  ? '🎉 You Win!' :
+          result === 'lose' ? '💀 You Lose!' :
+                              "🤝 It's a Draw!";
+
+        if (result === 'win')  scores.player++;
+        if (result === 'lose') scores.cpu++;
+        if (result === 'draw') scores.draw++;
+
+        document.getElementById('score-player').textContent = scores.player;
+        document.getElementById('score-cpu').textContent    = scores.cpu;
+        document.getElementById('score-draw').textContent   = scores.draw;
+
+        // History
+        const log = document.getElementById('history-log');
+        // Remove placeholder if present
+        if (log.querySelector('li[style]')) log.innerHTML = '';
+
+        const total = scores.player + scores.cpu + scores.draw;
+        const item  = document.createElement('li');
+        item.className = result;
+        item.innerHTML =
+          `<strong>Round ${total}</strong> &nbsp;—&nbsp; ` +
+          `You: ${EMOJI[playerMove]} vs CPU: ${EMOJI[cpuMove]} &nbsp;—&nbsp; ` +
+          `<strong>${result === 'win' ? '✅ Win' : result === 'lose' ? '❌ Lose' : '➖ Draw'}</strong>`;
+        log.insertBefore(item, log.firstChild);
+      }, 480);
+    }
+
+    function resetGame() {
+      scores = { player: 0, cpu: 0, draw: 0 };
+      document.getElementById('score-player').textContent = 0;
+      document.getElementById('score-cpu').textContent    = 0;
+      document.getElementById('score-draw').textContent   = 0;
+      document.getElementById('player-emoji').textContent = '🤜';
+      document.getElementById('cpu-emoji').textContent    = '🤛';
+      document.getElementById('player-hand').className   = 'hand-box';
+      document.getElementById('cpu-hand').className      = 'hand-box';
+      document.getElementById('result-text').className   = 'result-text';
+      document.getElementById('result-text').textContent = 'Choose a move below!';
+      document.getElementById('history-log').innerHTML   =
+        '<li style="color:#888; font-style:italic;">No rounds played yet.</li>';
+    }
+  </script>
+
+</body>
+</html>
