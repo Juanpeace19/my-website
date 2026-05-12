@@ -7,6 +7,42 @@
    - Khaki:       #E8DCC4   (cards / content panels)
    - White:       #FFFFFF   (highlights and contrast)
    ============================================================ */
+
+/* ---- Navigation Bar ---- */
+.nav-bar {
+  display: flex;
+  gap: 10px;
+  background-color: #3D2D13;
+  padding: 12px 20px;
+  margin: -30px -20px 30px -20px;   /* bleeds to page edges */
+  border-bottom: 4px solid #BF5700;
+}
+ 
+.nav-link {
+  font-family: Georgia, "Calibri", serif;
+  font-size: 15px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #E8DCC4;
+  padding: 6px 18px;
+  border-radius: 20px;
+  border: 2px solid transparent;
+  transition: background-color 0.2s, color 0.2s;
+}
+ 
+.nav-link:hover {
+  background-color: #BF5700;
+  color: #FFFFFF;
+  padding: 6px 18px;        /* override the hover rule from the a:hover below */
+  border-radius: 20px;
+}
+ 
+.nav-active {
+  background-color: #BF5700;
+  color: #FFFFFF !important;
+  border-color: #E8DCC4;
+}
+
 /* ---- Page basics ---- */
 body {
   background-color: #A9846A;          /* burnt orange background */
