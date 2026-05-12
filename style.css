@@ -45,7 +45,7 @@ body {
   width: 33%;                         /* each photo takes ~one-third */
   height: 280px;                      /* all photos same height */
   object-fit: cover;                  /* crop to fill, no distortion */
-  border: 4px solid #14213D;          /* navy frame */
+  border: 4px solid #C19A6B;          /* navy frame */
   border-radius: 6px;
   background-color: #FFFFFF;
 }
